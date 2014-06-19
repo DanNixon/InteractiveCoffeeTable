@@ -41,4 +41,6 @@
 #define PIN_MATRIX_CLOCK      6
 #define PIN_MATRIX_LOAD       5
 
+#define PIN_AUDIO_ADC         0
+
 #endif
