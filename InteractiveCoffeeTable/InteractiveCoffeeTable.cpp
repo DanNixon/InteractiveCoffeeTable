@@ -113,7 +113,8 @@ uint8_t InteractiveCoffeeTable::getButtonState(ICT_Button button)
   return lastButtonState[button];
 }
 
-void InteractiveCoffeeTable::setButtonCallback(void (* callback) (ICT_Button button, uint8_t state))
+void InteractiveCoffeeTable::setButtonCallback(
+    void (* callback)(ICT_Button button, uint8_t state))
 {
   buttonCallback = callback;
 }
@@ -167,7 +168,8 @@ void InteractiveCoffeeTable::setControl(ICT_Control control, uint8_t state)
   digitalWrite(control_pins[control], state);
 }
 
-void InteractiveCoffeeTable::lcdPrint(ICT_LCD lcd, uint8_t row, uint8_t column, char *text)
+void InteractiveCoffeeTable::lcdPrint(
+    ICT_LCD lcd, uint8_t row, uint8_t column, char *text)
 {
   this->lcd[lcd]->setCursor(column, row);
   this->lcd[lcd]->print(text);
@@ -176,4 +178,59 @@ void InteractiveCoffeeTable::lcdPrint(ICT_LCD lcd, uint8_t row, uint8_t column, 
 void InteractiveCoffeeTable::lcdClear(ICT_LCD lcd)
 {
   this->lcd[lcd]->clear();
+}
+
+void InteractiveCoffeeTable::matrixClear()
+{
+  uint8_t i;
+  for(i = 0; i < NUM_MATRIX_DRIVERS; i++)
+  {
+    matrix->clearDisplay(i);
+  }
+}
+
+void InteractiveCoffeeTable::matrixFullOn()
+{
+  uint8_t i, j;
+
+  for(i = 0; i < NUM_MATRIX_DRIVERS; i++)
+  {
+    for(j = 0; j < NUM_COLS_PER_MATRIX_DRIVER; j++)
+    {
+      matrixSetRow(i, j, MATRIX_ROW_FULL);
+    }
+  }
+}
+
+void InteractiveCoffeeTable::matrixSetRow(
+    uint8_t address, uint8_t row, uint8_t rowData)
+{
+  matrix->setRow(address, row, rowData);
+}
+
+void InteractiveCoffeeTable::matrixSetPixel(
+    uint8_t x, uint8_t y, uint8_t state)
+{
+  uint8_t outputX = NUM_COLS_PER_MATRIX_DRIVER - (y % NUM_COLS_PER_MATRIX_DRIVER) - 1;
+  uint8_t outputY = x % NUM_COLS_PER_MATRIX_DRIVER;
+
+  uint8_t address;
+  if((y / NUM_COLS_PER_MATRIX_DRIVER) && (x / NUM_COLS_PER_MATRIX_DRIVER))
+  {
+    address = 1;
+  }
+  else if(y / NUM_COLS_PER_MATRIX_DRIVER)
+  {
+    address = 0;
+  }
+  else if(x / NUM_COLS_PER_MATRIX_DRIVER)
+  {
+    address = 3;
+  }
+  else
+  {
+    address = 2;
+  }
+  
+  matrix->setLed(address, outputY, outputX, state);
 }

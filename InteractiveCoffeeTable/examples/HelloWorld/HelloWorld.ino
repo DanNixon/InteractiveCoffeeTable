@@ -1,3 +1,11 @@
+/*
+ * Simple device test
+ *
+ * Interactive Coffee Table
+ * Dan Nixon, dan-nixon.com
+ * 19/06/2014
+ */
+
 #include <LiquidCrystal.h>
 #include <LedControl.h>
 
@@ -7,6 +15,7 @@ InteractiveCoffeeTable table;
 
 void setup()
 {
+  uint8_t i, j;
   Serial.begin(9600);
   
   table.setButtonCallback(&button_callback);
@@ -20,6 +29,8 @@ void setup()
   table.lcdPrint(LCD_40X2, 1,  0, "Hello, World! 2");
   table.lcdPrint(LCD_40X2, 0, 20, "Hello, World! 3");
   table.lcdPrint(LCD_40X2, 1, 20, "Hello, World! 4");
+
+  table.matrixFullOn();
 }
 
 void loop()
