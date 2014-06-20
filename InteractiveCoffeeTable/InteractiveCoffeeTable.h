@@ -18,16 +18,14 @@
 
 #include <pins.h>
 
-#define DEFAULT_BUTTON_DEBOUNCE_MS 200
+#define DEFAULT_BUTTON_DEBOUNCE_MS  200
 
-#define NUM_MATRIX_DRIVERS 4
-#define NUM_COLS_PER_MATRIX_DRIVER 8
+#define NUM_MATRIX_DRIVERS          4
+#define NUM_MATRIX_DRIVER_ROW_COL   8
+#define NUM_MATRIX_ROW_COL          16
 
-#define NUM_MATRIX_ROWS 16
-#define NUM_MATRIX_COLS 16
-
-#define MATRIX_ROW_FULL 255
-#define MATRIX_ROW_OFF 0
+#define MATRIX_ROW_FULL   255
+#define MATRIX_ROW_OFF    0
 
 enum ICT_Button
 {

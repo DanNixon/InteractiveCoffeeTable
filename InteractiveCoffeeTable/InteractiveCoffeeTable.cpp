@@ -195,7 +195,7 @@ void InteractiveCoffeeTable::matrixFullOn()
 
   for(i = 0; i < NUM_MATRIX_DRIVERS; i++)
   {
-    for(j = 0; j < NUM_COLS_PER_MATRIX_DRIVER; j++)
+    for(j = 0; j < NUM_MATRIX_DRIVER_ROW_COL; j++)
     {
       matrixSetRow(i, j, MATRIX_ROW_FULL);
     }
@@ -211,19 +211,22 @@ void InteractiveCoffeeTable::matrixSetRow(
 void InteractiveCoffeeTable::matrixSetPixel(
     uint8_t x, uint8_t y, uint8_t state)
 {
-  uint8_t outputX = NUM_COLS_PER_MATRIX_DRIVER - (y % NUM_COLS_PER_MATRIX_DRIVER) - 1;
-  uint8_t outputY = x % NUM_COLS_PER_MATRIX_DRIVER;
+  if((x >= NUM_MATRIX_ROW_COL) || (y >= NUM_MATRIX_ROW_COL))
+    return;
+
+  uint8_t outputX = NUM_MATRIX_DRIVER_ROW_COL - (y % NUM_MATRIX_DRIVER_ROW_COL) - 1;
+  uint8_t outputY = x % NUM_MATRIX_DRIVER_ROW_COL;
 
   uint8_t address;
-  if((y / NUM_COLS_PER_MATRIX_DRIVER) && (x / NUM_COLS_PER_MATRIX_DRIVER))
+  if((y / NUM_MATRIX_DRIVER_ROW_COL) && (x / NUM_MATRIX_DRIVER_ROW_COL))
   {
     address = 1;
   }
-  else if(y / NUM_COLS_PER_MATRIX_DRIVER)
+  else if(y / NUM_MATRIX_DRIVER_ROW_COL)
   {
     address = 0;
   }
-  else if(x / NUM_COLS_PER_MATRIX_DRIVER)
+  else if(x / NUM_MATRIX_DRIVER_ROW_COL)
   {
     address = 3;
   }
