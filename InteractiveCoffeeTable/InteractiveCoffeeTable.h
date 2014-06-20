@@ -4,7 +4,7 @@
  *
  * Interactive Coffee Table
  * Dan Nixon, dan-nixon.com
- * 19/06/2014
+ * 20/06/2014
  */
 
 #ifndef INTERACTIVECOFFEETABLE_H
@@ -24,8 +24,8 @@
 #define NUM_MATRIX_DRIVER_ROW_COL   8
 #define NUM_MATRIX_ROW_COL          16
 
-#define MATRIX_ROW_FULL   255
-#define MATRIX_ROW_OFF    0
+#define MATRIX_ROW_FULL             255
+#define MATRIX_ROW_OFF              0
 
 enum ICT_Button
 {

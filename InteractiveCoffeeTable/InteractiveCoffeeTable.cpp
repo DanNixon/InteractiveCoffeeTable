@@ -4,7 +4,7 @@
  *
  * Interactive Coffee Table
  * Dan Nixon, dan-nixon.com
- * 19/06/2014
+ * 20/06/2014
  */
 
 #include <InteractiveCoffeeTable.h>
@@ -108,27 +108,42 @@ InteractiveCoffeeTable::~InteractiveCoffeeTable()
   delete lcd;
 }
 
+/*
+ * Get the last recorded state of a button
+ */
 uint8_t InteractiveCoffeeTable::getButtonState(ICT_Button button)
 {
   return lastButtonState[button];
 }
 
+/*
+ * Set the function to call when a button change is detected
+ */
 void InteractiveCoffeeTable::setButtonCallback(
     void (* callback)(ICT_Button button, uint8_t state))
 {
   buttonCallback = callback;
 }
 
+/*
+ * Get the current setting for the button debounce time
+ */
 uint16_t InteractiveCoffeeTable::getButtonDebounceTime()
 {
   return buttonDebounceDelay;
 }
 
+/*
+ * Set the button debounce delay time
+ */
 void InteractiveCoffeeTable::setButtonDebounceTime(uint16_t time)
 {
   buttonDebounceDelay = time;
 }
 
+/*
+ * Update the button states and call handler function if needed
+ */
 void InteractiveCoffeeTable::pollButtons()
 {
   uint8_t i;
@@ -148,26 +163,41 @@ void InteractiveCoffeeTable::pollButtons()
   }
 }
 
+/*
+ * Reads the state of an LED
+ */
 uint8_t InteractiveCoffeeTable::getLEDState(ICT_LED led)
 {
   return digitalRead(led_pins[led]);
 }
 
+/*
+ * Sets the state of an LED
+ */
 void InteractiveCoffeeTable::setLED(ICT_LED led, uint8_t state)
 {
   digitalWrite(led_pins[led], state);
 }
 
+/*
+ * Reads the state of an aux control
+ */
 uint8_t InteractiveCoffeeTable::getControlState(ICT_Control control)
 {
   return digitalRead(control_pins[control]);
 }
 
+/*
+ * Sets the state of an aux control
+ */
 void InteractiveCoffeeTable::setControl(ICT_Control control, uint8_t state)
 {
   digitalWrite(control_pins[control], state);
 }
 
+/*
+ * Display text on a given LCD at a spcified start position
+ */
 void InteractiveCoffeeTable::lcdPrint(
     ICT_LCD lcd, uint8_t row, uint8_t column, char *text)
 {
@@ -175,11 +205,17 @@ void InteractiveCoffeeTable::lcdPrint(
   this->lcd[lcd]->print(text);
 }
 
+/*
+ * Clear text displayed on a given LCD
+ */
 void InteractiveCoffeeTable::lcdClear(ICT_LCD lcd)
 {
   this->lcd[lcd]->clear();
 }
 
+/*
+ * Clears the LED matrix
+ */
 void InteractiveCoffeeTable::matrixClear()
 {
   uint8_t i;
@@ -189,6 +225,9 @@ void InteractiveCoffeeTable::matrixClear()
   }
 }
 
+/*
+ * Sets all LEDs on matrix on
+ */
 void InteractiveCoffeeTable::matrixFullOn()
 {
   uint8_t i, j;
@@ -202,12 +241,22 @@ void InteractiveCoffeeTable::matrixFullOn()
   }
 }
 
+/*
+ * Sets the value of a row on a given driver on the LED matrix
+ * Note that rows are oriented vertically on my hardware design
+ */
 void InteractiveCoffeeTable::matrixSetRow(
     uint8_t address, uint8_t row, uint8_t rowData)
 {
   matrix->setRow(address, row, rowData);
 }
 
+/*
+ * Sets LED at a given coordinate indexed from 0 from the bottom left of
+ * the matrix
+ * Note that this is a slow way to address many LEDs, use matrixSetRow for
+ * fast drawing
+ */
 void InteractiveCoffeeTable::matrixSetPixel(
     uint8_t x, uint8_t y, uint8_t state)
 {
